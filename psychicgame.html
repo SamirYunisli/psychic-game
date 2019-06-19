@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="H1"></div>
+    <!-- <h1>The Psychic Game</h1> -->
+    <p>Guess what letter I'm thinking of</p>
+    <p>Wins: <span id="winScore"></span></p>
+    <p>Losses: <span id="lossesScore"></span></p>
+    <p>Guesses Left: <span id="guessesLeft"></span></p>
+    <p>Your Guesses so far: <span id="guessesSofar"></span></p>
+
+    <script type="text/javascript">
+    // Computer Guess
+    
+
+    
+    class PsychicGame {
+        constructor() {
+            this.wScore = 0;
+            this.lScore = 0;
+            this.Left = 9;
+            this.SofarGuess = [];
+
+            this.Showstats()
+            this.computerGuess()
+        }
+        computerGuess () {
+        this.CompGuesses = "qwertyuiopasdfghjklzxcvbnm"
+        this.compGuess = this.CompGuesses[parseInt(Math.random() * this.CompGuesses.length)]
+        console.log(this.compGuess)
+        }
+            
+        Showstats() {
+            document.getElementById("winScore").innerHTML = this.wScore;
+            document.getElementById("lossesScore").innerHTML = this.lScore;
+            document.getElementById("guessesLeft").innerHTML = this.Left;
+            document.getElementById("guessesSofar").innerHTML = this.SofarGuess;
+        }
+        incrementWinscore() {
+            this.wScore++;
+        }
+        incrementLosscore() {
+            this.lScore++;
+        }
+        decrementGuess() {
+            this.Left--;
+        }
+        pushGuesses (userGuess) {
+            if (this.SofarGuess.indexOf(userGuess) != -1) {
+                alert("You have typed this letter already")
+                
+            } else {
+                this.SofarGuess.push(userGuess);
+            }
+        }
+        resetgame() {
+            this.Left = 9;
+            this.SofarGuess = [];
+        }
+    }
+    let game = new PsychicGame();
+    
+
+    document.onkeyup = function(event) {
+    var userGuess = event.key
+
+    if (userGuess == game.compGuess) {
+        game.incrementWinscore();
+        game.resetgame();
+        game.computerGuess();
+    }
+    else {
+        if (game.Left > 1) {
+            game.decrementGuess();
+            game.pushGuesses(userGuess);
+        }
+        else {
+            game.incrementLosscore();
+            game.resetgame();
+        }
+    } 
+
+    game.Showstats()
+    }
+    
+
+    </script>
+</body>
+</html>
